@@ -1,0 +1,16 @@
+<form action="{$form_url}" id="oson_form" method="POST" link="1">
+    <div class="osonPay">
+        <!-- to change button color change class (oson_dark_btn) to (oson_light_btn) -->
+        <button class="osonOpen oson_dark_btn" type="submit">Oson Pay</button>
+    </div>
+</form>
+<script type="text/javascript" src="https://pay.oson.uz/assets/btn_invoice/cdn.js"></script>
+{if $auto_submit}
+    <script type="text/javascript">
+        setTimeout(function () {
+            document.getElementById('oson_form')[0].click();
+        }, 1000);
+    </script>
+{/if}
+
+
