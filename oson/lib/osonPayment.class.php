@@ -103,6 +103,7 @@ class osonPayment extends waPayment {
     }
 
 	protected function callbackInit($request) {
+        $request = count($request) ? $request : (array)json_decode(file_get_contents("php://input"));
         if ($request['transaction_id'] OR $request['tr_id']){
             $tr_id = ($request['transaction_id'] ? $request['transaction_id'] : $request['tr_id']);
             $arr = explode("_", $tr_id);
@@ -132,7 +133,7 @@ class osonPayment extends waPayment {
             if (!$request['pay_url']){
                 $parameters = "{$request['transaction_id']}:{$request['bill_id']}:{$request['status']}";
                 $signature = hash('sha256', hash('sha256', "{$this->token}:{$this->merchant_idd}").":{$parameters}");
-                if ($signature === $request['signature']) {
+                if ($signature !== $request['signature']) {
                     self::log($this->id, array('method' => __METHOD__, 'error' => 'Status: Подпись не совпадает'));
                     echo "Подпись не совпадает";
                     die;
